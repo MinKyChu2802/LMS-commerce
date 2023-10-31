@@ -3,7 +3,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -16,6 +16,7 @@ import {
 import { Button } from "../../../../../components/ui/button";
 import { Input } from "../../../../../components/ui/input";
 import Link from "next/link";
+import toast from "react-hot-toast"
 
 const formShema = z.object({
   title: z.string().min(1, {
@@ -24,6 +25,7 @@ const formShema = z.object({
 });
 
 const CreatePage = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formShema>>({
     resolver: zodResolver(formShema),
     defaultValue: {
@@ -34,8 +36,14 @@ const CreatePage = () => {
   const { isSubmitting, isValid } = form.formState;
   const { control } = form;
 
-  const onSubmit = (values: z.infer<typeof formShema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formShema>) => {
+    try {
+      const respone = await axios.post("/api/course", values);
+      router.push(`/teacher/courses/${respone.data.id} `);
+    } catch (error) {
+      console.log(error);
+      toast.error("Lỗi")
+    }
   };
 
   return (
