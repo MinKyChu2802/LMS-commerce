@@ -31,6 +31,7 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values)
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
       toast.success("Course updated");
@@ -80,7 +81,7 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
         <div>
           <FileUpload
             endpoint="courseImage"
-            onChange={(url) => {
+            onChange={(url: string) => {
               if (url) {
                 onSubmit({ imageUrl: url });
               }

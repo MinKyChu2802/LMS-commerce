@@ -1,4 +1,4 @@
-import Mux from "@mux/mux-node";
+import  Mux  from '@mux/mux-node';
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
@@ -63,6 +63,7 @@ export async function PATCH(
 ) {
   try {
     const { userId } = auth();
+    console.log("LASDL", userId)
     const { courseId } = params;
     const values = await req.json();
 
