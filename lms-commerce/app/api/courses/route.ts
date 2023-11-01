@@ -15,6 +15,7 @@ export async function POST(req: Request) {
       data: {
         userId,
         title,
+        imageUrl: ""
       }
     })
 
