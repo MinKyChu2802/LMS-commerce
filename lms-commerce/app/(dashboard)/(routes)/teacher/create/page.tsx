@@ -12,11 +12,11 @@ import {
   FormLabel,
   FormMessage,
   FormItem,
-} from "../../../../../components/ui/form";
-import { Button } from "../../../../../components/ui/button";
-import { Input } from "../../../../../components/ui/input";
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
 
 const formShema = z.object({
   title: z.string().min(1, {
@@ -28,7 +28,7 @@ const CreatePage = () => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formShema>>({
     resolver: zodResolver(formShema),
-    defaultValue: {
+    defaultValues: {
       title: "",
     },
   });
@@ -38,11 +38,12 @@ const CreatePage = () => {
 
   const onSubmit = async (values: z.infer<typeof formShema>) => {
     try {
-      const respone = await axios.post("/api/course", values);
+      const respone = await axios.post("/api/courses", values);
       router.push(`/teacher/courses/${respone.data.id} `);
+      toast.success("Course created")
     } catch (error) {
       console.log(error);
-      toast.error("Lỗi")
+      toast.error("Lỗi");
     }
   };
 
